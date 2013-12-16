@@ -25,19 +25,20 @@ use DebugBar\JavascriptRenderer;
 if (cot_auth('plug', 'debugbar', 'R'))
 {
 	$cfg['debug_mode'] = TRUE;
-	set_include_path($cfg['plugins_dir'].'/debugbar/Psr/Log' . PATH_SEPARATOR . get_include_path());
-	spl_autoload_register(function($className) {
-		$filename = str_replace('\\', DIRECTORY_SEPARATOR, trim($className, '\\')) . '.php';
-		require_once $filename;
-	});
 
-	set_include_path($cfg['plugins_dir'].'/debugbar/src' . PATH_SEPARATOR . get_include_path());
 	spl_autoload_register(function($className) {
+		global $cfg;
 	    if (substr($className, 0, 8) === 'DebugBar') {
 			$filename = str_replace('\\', DIRECTORY_SEPARATOR, trim($className, '\\')) . '.php';
-			require_once $filename;
+			require_once $cfg['plugins_dir'].'/debugbar/src/'.$filename;
 	    }
+		if (substr($className, 0, 3) === 'Psr')
+		{
+			$filename = str_replace('\\', DIRECTORY_SEPARATOR, trim($className, '\\')) . '.php';
+			require_once $cfg['plugins_dir'].'/debugbar/'.$filename;
+		}	    
 	});
+
 
 	$debugbar = new StandardDebugBar();
 
@@ -45,11 +46,11 @@ if (cot_auth('plug', 'debugbar', 'R'))
 	$debugbarRenderer->setBaseUrl($cfg['plugins_dir'].'/debugbar/src/DebugBar/Resources');
 
 	list($cssFiles, $jsFiles) = $debugbarRenderer->getAssets();
-
+	$cssFiles[] = $cfg['plugins_dir']."/debugbar/css/debugbar.css";
 	$debugbarrc = '';
 	foreach ($cssFiles as $jscssFile) 
 	{
-		$jscssFile = preg_replace("/(.+?)".$cfg['plugins_dir']."/", $cfg['plugins_dir'], $jscssFile);
+		$jscssFile = preg_replace("/(.*?)".$cfg['plugins_dir']."/", $cfg['plugins_dir'], $jscssFile);
 		$debugbarrc .= '<link href="'.$jscssFile.'" type="text/css" rel="stylesheet" /> ';
 
 	}
