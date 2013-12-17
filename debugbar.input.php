@@ -43,6 +43,9 @@ if (cot_auth('plug', 'debugbar', 'R'))
 	$debugbar = new StandardDebugBar();
 
 	$debugbarRenderer = $debugbar->getJavascriptRenderer();
+	$debugbarRenderer->setIncludeVendors();
+	$debugbarRenderer->setEnableJqueryNoConflict(false);
+
 	$debugbarRenderer->setBaseUrl($cfg['plugins_dir'].'/debugbar/src/DebugBar/Resources');
 
 	list($cssFiles, $jsFiles) = $debugbarRenderer->getAssets();
