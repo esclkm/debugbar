@@ -4,7 +4,7 @@
 Code=debugbar
 Name=Debug Bar
 Category=tools
-Description=PHP Debug Ba for cotonti http://phpdebugbar.com/
+Description=PHP Debug Bar for cotonti http://phpdebugbar.com/
 Version=1.7.1
 Date=2013-12-13
 Author=Cotonti Team
@@ -21,10 +21,9 @@ Lock_members=12345A
 ==================== */
 
 /**
- * Contact Plugin for Cotonti CMF
+ * Debug bar for Cotonti CMF
  *
- * @package contactphone
- * @version 2.1
+ * @package debugbar
  * @author Cotonti Team
  * @copyright (c) Cotonti Team 2008-2013
  * @license BSD
